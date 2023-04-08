@@ -9,7 +9,7 @@ class RegistrationController extends Controller
 {
     public function index(): void
     {
-        if (array_key_exists('user', $_SESSION)) {
+        if ($this->env->hasServerVariable('user')) {
             header('Location: /');
             exit();
         }
@@ -17,9 +17,10 @@ class RegistrationController extends Controller
         echo $this->render('registration/form.html.twig');
     }
 
-    public function register(array $post): void
+    public function register(): void
     {
-        $user = $this->verify($post);
+        $form = $this->request->post->toArray();
+        $user = $this->verify($form);
         $success = false;
         if ($user) {
             $success = $this->db->insert($user);

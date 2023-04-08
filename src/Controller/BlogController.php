@@ -9,6 +9,7 @@ class BlogController extends Controller
 {
     public function index(): void
     {
+        /** @var array $posts */
         $posts = $this->db->fetchAll(Post::class, [
             'orderBy' => 'DESC',
         ]);
@@ -18,9 +19,9 @@ class BlogController extends Controller
         ]);
     }
 
-    public function view(array $params): void
+    public function view(): void
     {
-        $id = array_key_exists('id', $params) ? $params['id'] : null;
+        $id = $this->request->get('id');
         if ($id) {
             $post = $this->db->fetchOneById(Post::class, intval($id));
             if ($post) {
@@ -35,8 +36,10 @@ class BlogController extends Controller
         }
     }
 
-    public function new(array $data)
+    public function new()
     {
+        $data = $this->request->post->toArray();
+
         /** @var User $user */
         $user = null;
         // vérifier si l'utilisateur est bien connecté
@@ -65,10 +68,7 @@ class BlogController extends Controller
         $post = new Post;
         $post->setDataFromArray($data);
 
-        $success = $this->db->insert($post);
-
-        dd($success);
-        return ;
+        return $this->db->insert($post);
     }
 
     public function updatePost($id, $title, $content)

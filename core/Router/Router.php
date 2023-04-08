@@ -2,6 +2,8 @@
 
 namespace Core\Router;
 
+use Ghostwriter\Environment\Environment;
+
 class Router
 {
     private const METHOD_GET = 'GET';
@@ -10,30 +12,32 @@ class Router
 
     private static ?self $_instance = null;
 
-    public static function getInstance() {
-        if (is_null(self::$_instance)) {
+    public static function getInstance()
+    {
+        if (null === self::$_instance) {
             self::$_instance = new Router();
         }
         return self::$_instance;
     }
 
-    public function get(string $path, string $controller, string $controllerMethod, ?array $params = null): void
+    public function get(string $path, string $controller, string $controllerMethod): void
     {
-        $this->addHandler($path, self::METHOD_GET, $controller, $controllerMethod, $params);
+        $this->addHandler($path, self::METHOD_GET, $controller, $controllerMethod);
     }
 
-    public function post(string $path, string $controller, string $controllerMethod, ?array $params = null): void
+    public function post(string $path, string $controller, string $controllerMethod): void
     {
-        $this->addHandler($path, self::METHOD_POST, $controller, $controllerMethod, $params);
+        $this->addHandler($path, self::METHOD_POST, $controller, $controllerMethod);
     }
 
     public function run(): void
     {
-        $requestUri = parse_url($_SERVER['REQUEST_URI']);
-        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        //[x]TODO: Direct use of $_SERVER Superglobal detected.        
+        $environment = new Environment();
+        $requestUri = parse_url($environment->getServerVariables()['REQUEST_URI']);
+        $requestMethod = $environment->getServerVariables()['REQUEST_METHOD'];
         $requestPath = $requestUri['path'];
         $callback = null;
-        $params = null;
 
         foreach ($this->handlers as $handler) {
             if (
@@ -49,37 +53,16 @@ class Router
             return;
         }
 
-        call_user_func_array($callback, [
-            array_merge($_GET, $_POST)
-        ]);
+        call_user_func_array($callback, []);
     }
 
-    public function redirectToRoute(string $route): void
-    {
-        // check if route exist
-        foreach ($this->handlers as $handler) {
-            if (
-                $route === $handler['path']
-                && self::METHOD_GET === $handler['method']
-            ) {
-                $controller = new $handler['controller'];
-                $callback = [$controller, $handler['controllerMethod']];
-                call_user_func_array($callback, [
-                    array_merge($_GET, $_POST)
-                ]);
-            }
-        }
-    }
-
-    private function addHandler(string $path, string $method, string $controller, string $controllerMethod, ?array $params = null): void
+    private function addHandler(string $path, string $method, string $controller, string $controllerMethod): void
     {
         $this->handlers[$method . $path] = [
             'path' => $path,
             'method' => $method,
             'controller' => $controller,
             'controllerMethod' => $controllerMethod,
-            'params' => $params,
         ];
     }
 }
-

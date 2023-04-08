@@ -18,6 +18,8 @@
         "symfony/var-dumper": "^6.2",
         "twig/twig": "^3.0",
         "berlioz/flash-bag": "^1.3",
-        "cocur/slugify": "^4.3"
+        "cocur/slugify": "^4.3",
+        "ghostwriter/environment": "^1.1",
+        "goenitz/request": "^1.1"
     }
 }

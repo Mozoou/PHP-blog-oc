@@ -7,9 +7,10 @@ use Berlioz\FlashBag\FlashBag;
 
 class LoginController extends Controller
 {
-    public function login(array $form): string | bool
+    public function login(): string | bool
     {
-        if (array_key_exists('user', $_SESSION)) {
+        $form = $this->request->post->toArray();
+        if ($this->env->hasServerVariable('user')) {
             header('Location: /');
             exit();
         }
@@ -40,7 +41,9 @@ class LoginController extends Controller
         ) {
             // Login successful, set session variables
             session_start();
-            $_SESSION['user'] = $user;
+            $this->env->setServerVariable('user_id', $user->getId());
+            $this->env->setServerVariable('user_email', $user->getEmail());
+
             $this->flash->add(FlashBag::TYPE_SUCCESS, 'Connexion réussi');
             header('Location: /');
             return true;

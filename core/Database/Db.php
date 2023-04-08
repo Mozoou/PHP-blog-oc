@@ -11,7 +11,7 @@ class Db
     private static ?self $_instance = null;
 
     public static function getInstance() {
-        if (is_null(self::$_instance)) {
+        if (null === self::$_instance) {
             self::$_instance = new Db();
         }
         return self::$_instance;
