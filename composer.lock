@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4dfb0337bf554c3e8d7df3e3d51b0e2a",
+    "content-hash": "cb9c08b9fb5d0f531781e8340cac5b47",
     "packages": [
         {
             "name": "berlioz/flash-bag",
@@ -125,152 +125,36 @@
             "time": "2022-12-07T19:48:48+00:00"
         },
         {
-            "name": "ghostwriter/collection",
-            "version": "1.3.0",
+            "name": "symfony/deprecation-contracts",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ghostwriter/collection.git",
-                "reference": "d90268386a32a562c29a8b152d38d5e36690c2ff"
+                "url": "https://github.com/symfony/deprecation-contracts.git",
+                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ghostwriter/collection/zipball/d90268386a32a562c29a8b152d38d5e36690c2ff",
-                "reference": "d90268386a32a562c29a8b152d38d5e36690c2ff",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
+                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
                 "shasum": ""
             },
             "require": {
-                "ghostwriter/option": "^1.4",
-                "php": ">=8.1,<8.3"
-            },
-            "require-dev": {
-                "ghostwriter/coding-standard": "dev-main"
+                "php": ">=8.1"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3-dev"
+                },
+                "thanks": {
+                    "name": "symfony/contracts",
+                    "url": "https://github.com/symfony/contracts"
+                }
+            },
             "autoload": {
-                "psr-4": {
-                    "Ghostwriter\\Collection\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nathanael Esayeas",
-                    "email": "nathanael.esayeas@protonmail.com",
-                    "homepage": "https://github.com/ghostwriter",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Provides a Collection implementation for PHP",
-            "homepage": "https://github.com/ghostwriter/collection",
-            "keywords": [
-                "collection",
-                "ghostwriter"
-            ],
-            "support": {
-                "docs": "https://github.com/ghostwriter/collection",
-                "forum": "https://github.com/ghostwriter/collection/discussions",
-                "issues": "https://github.com/ghostwriter/collection/issues",
-                "rss": "https://github.com/ghostwriter/collection/releases.atom",
-                "source": "https://github.com/ghostwriter/collection"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/ghostwriter",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-03-22T20:40:21+00:00"
-        },
-        {
-            "name": "ghostwriter/environment",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ghostwriter/environment.git",
-                "reference": "1f86dfe3bf760be135f5d7c1515f17699cbf3e79"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ghostwriter/environment/zipball/1f86dfe3bf760be135f5d7c1515f17699cbf3e79",
-                "reference": "1f86dfe3bf760be135f5d7c1515f17699cbf3e79",
-                "shasum": ""
-            },
-            "require": {
-                "ghostwriter/collection": "^1.2",
-                "php": ">=8.1,<8.3"
-            },
-            "require-dev": {
-                "ghostwriter/coding-standard": "dev-main"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ghostwriter\\Environment\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nathanael Esayeas",
-                    "email": "nathanael.esayeas@protonmail.com",
-                    "homepage": "https://github.com/ghostwriter",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Provides Environment Variables derived from `$_ENV` and `$_SERVER` super-globals",
-            "homepage": "https://github.com/ghostwriter/environment",
-            "keywords": [
-                "environment",
-                "environment-variables",
-                "ghostwriter",
-                "server-variables"
-            ],
-            "support": {
-                "docs": "https://github.com/ghostwriter/environment",
-                "forum": "https://github.com/ghostwriter/environment/discussions",
-                "issues": "https://github.com/ghostwriter/environment/issues",
-                "rss": "https://github.com/ghostwriter/environment/releases.atom",
-                "source": "https://github.com/ghostwriter/environment"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/ghostwriter",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-01-17T05:31:38+00:00"
-        },
-        {
-            "name": "ghostwriter/option",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ghostwriter/option.git",
-                "reference": "e8a0044c88501ba198e4e616c0e906d8fd85fdf7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ghostwriter/option/zipball/e8a0044c88501ba198e4e616c0e906d8fd85fdf7",
-                "reference": "e8a0044c88501ba198e4e616c0e906d8fd85fdf7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1,<8.3"
-            },
-            "require-dev": {
-                "ghostwriter/coding-standard": "dev-main"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ghostwriter\\Option\\": "src/"
-                }
+                "files": [
+                    "function.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -278,55 +162,77 @@
             ],
             "authors": [
                 {
-                    "name": "Nathanael Esayeas",
-                    "email": "nathanael.esayeas@protonmail.com",
-                    "homepage": "https://github.com/ghostwriter",
-                    "role": "Developer"
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Provides an Option type implementation for PHP",
-            "homepage": "https://github.com/ghostwriter/option",
-            "keywords": [
-                "ghostwriter",
-                "option"
-            ],
+            "description": "A generic function and convention to trigger deprecation notices",
+            "homepage": "https://symfony.com",
             "support": {
-                "docs": "https://github.com/ghostwriter/option",
-                "forum": "https://github.com/ghostwriter/option/discussions",
-                "issues": "https://github.com/ghostwriter/option/issues",
-                "rss": "https://github.com/ghostwriter/option/releases.atom",
-                "source": "https://github.com/ghostwriter/option"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.2.1"
             },
             "funding": [
                 {
-                    "url": "https://github.com/sponsors/ghostwriter",
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
                     "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2023-03-21T18:31:36+00:00"
+            "time": "2023-03-01T10:25:55+00:00"
         },
         {
-            "name": "goenitz/request",
-            "version": "v1.1.0",
+            "name": "symfony/http-foundation",
+            "version": "v6.2.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tianyirenjian/request.git",
-                "reference": "6018473607d026b1eb0d73232a31568038369628"
+                "url": "https://github.com/symfony/http-foundation.git",
+                "reference": "511a524affeefc191939348823ac75e9921c2112"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tianyirenjian/request/zipball/6018473607d026b1eb0d73232a31568038369628",
-                "reference": "6018473607d026b1eb0d73232a31568038369628",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/511a524affeefc191939348823ac75e9921c2112",
+                "reference": "511a524affeefc191939348823ac75e9921c2112",
                 "shasum": ""
             },
             "require": {
-                "php": ">5.3"
+                "php": ">=8.1",
+                "symfony/deprecation-contracts": "^2.1|^3",
+                "symfony/polyfill-mbstring": "~1.1"
+            },
+            "conflict": {
+                "symfony/cache": "<6.2"
+            },
+            "require-dev": {
+                "predis/predis": "~1.0",
+                "symfony/cache": "^5.4|^6.0",
+                "symfony/dependency-injection": "^5.4|^6.0",
+                "symfony/expression-language": "^5.4|^6.0",
+                "symfony/http-kernel": "^5.4.12|^6.0.12|^6.1.4",
+                "symfony/mime": "^5.4|^6.0",
+                "symfony/rate-limiter": "^5.2|^6.0"
+            },
+            "suggest": {
+                "symfony/mime": "To use the file extension guesser"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Goenitz\\Request\\": ""
-                }
+                    "Symfony\\Component\\HttpFoundation\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -334,19 +240,34 @@
             ],
             "authors": [
                 {
-                    "name": "goenitz",
-                    "email": "179063828@qq.com"
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "A class to get request variables.",
-            "keywords": [
-                "request"
-            ],
+            "description": "Defines an object-oriented layer for the HTTP specification",
+            "homepage": "https://symfony.com",
             "support": {
-                "issues": "https://github.com/tianyirenjian/request/issues",
-                "source": "https://github.com/tianyirenjian/request/tree/master"
+                "source": "https://github.com/symfony/http-foundation/tree/v6.2.8"
             },
-            "time": "2017-05-24T01:05:50+00:00"
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-03-29T21:42:15+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

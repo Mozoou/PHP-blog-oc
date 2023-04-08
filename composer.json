@@ -19,7 +19,6 @@
         "twig/twig": "^3.0",
         "berlioz/flash-bag": "^1.3",
         "cocur/slugify": "^4.3",
-        "ghostwriter/environment": "^1.1",
-        "goenitz/request": "^1.1"
+        "symfony/http-foundation": "^6.2"
     }
 }

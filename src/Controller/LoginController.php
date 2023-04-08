@@ -9,21 +9,20 @@ class LoginController extends Controller
 {
     public function login(): string | bool
     {
-        $form = $this->request->post->toArray();
-        if ($this->env->hasServerVariable('user')) {
+        if ($this->session->get('user')) {
             header('Location: /');
             exit();
         }
 
-        $submited = htmlspecialchars(trim($form['submitted']));
+        $submited = htmlspecialchars(trim($this->request->request->get('submitted')));
 
         if (!$submited) {
-            echo $this->render('login/form.html.twig');
+            return $this->render('login/form.html.twig');
         }
 
         // Sanitize inputs
-        $email = htmlspecialchars(trim($form['email']));
-        $password = htmlspecialchars(trim($form['password']));
+        $email = htmlspecialchars(trim($this->request->request->get('email')));
+        $password = htmlspecialchars(trim($this->request->request->get('password')));
 
         // Check if username and password are not empty
         if (empty($email) || empty($password)) {
@@ -40,10 +39,7 @@ class LoginController extends Controller
             && password_verify($password, $user->getPassword())
         ) {
             // Login successful, set session variables
-            session_start();
-            $this->env->setServerVariable('user_id', $user->getId());
-            $this->env->setServerVariable('user_email', $user->getEmail());
-
+            $this->session->set('user', $user);
             $this->flash->add(FlashBag::TYPE_SUCCESS, 'Connexion réussi');
             header('Location: /');
             return true;

@@ -7,17 +7,17 @@ use Berlioz\FlashBag\FlashBag;
 
 class RegistrationController extends Controller
 {
-    public function index(): void
+    public function index()
     {
-        if ($this->env->hasServerVariable('user')) {
+        if ($this->session->get('user')) {
             header('Location: /');
             exit();
         }
 
-        echo $this->render('registration/form.html.twig');
+        return $this->render('registration/form.html.twig');
     }
 
-    public function register(): void
+    public function register()
     {
         $form = $this->request->post->toArray();
         $user = $this->verify($form);
@@ -40,7 +40,7 @@ class RegistrationController extends Controller
             print sprintf('<div class="alert alert-%s">%s</div>', $type, $messages);
         }
 
-        echo $this->render('registration/form.html.twig');
+        return $this->render('registration/form.html.twig');
     }
 
     private function verify(array $data): ?User

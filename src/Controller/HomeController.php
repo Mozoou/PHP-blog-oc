@@ -4,8 +4,8 @@ namespace App\Controller;
 
 class HomeController extends Controller
 {
-    public function index(): void
+    public function index()
     {
-        echo $this->render('index.html.twig');
+        return $this->render('index.html.twig');
     }
 }
