@@ -7,25 +7,29 @@ use App\Model\User;
 
 class BlogController extends Controller
 {
-    public function index(): void
+    public function index()
     {
-        /** @var array $posts */
+        /* @var array $posts */
         $posts = $this->db->fetchAll(Post::class, [
             'orderBy' => 'DESC',
         ]);
 
-        echo $this->render('blog/index.html.twig', [
+        return $this->render('blog/index.html.twig', [
             'posts' => $posts,
         ]);
     }
 
-    public function view(): void
+    /**
+     * View one post
+     * @return void
+     */
+    public function view(): void 
     {
-        $id = $this->request->get('id');
-        if ($id) {
-            $post = $this->db->fetchOneById(Post::class, intval($id));
+        $_id = $this->request->get('id');
+        if ($_id) {
+            $post = $this->db->fetchOneById(Post::class, intval($_id));
             if ($post) {
-                echo $this->render('blog/view.html.twig', [
+                $this->render('blog/view.html.twig', [
                     'post' => $post,
                 ]);
             } else {
@@ -36,24 +40,28 @@ class BlogController extends Controller
         }
     }
 
-    public function new()
+    /**
+     * Create a new post
+     * @return bool | void
+     */
+    public function new(): bool
     {
         $data = $this->request->post->toArray();
 
         /** @var User $user */
         $user = null;
         // vérifier si l'utilisateur est bien connecté
-        if (!array_key_exists('user', $_SESSION)) {
+        if (!$this->session->get('user')) {
             header('Location: /login');
             exit();
-        } else {
-            $user = $_SESSION['user'];
         }
+
+        $user = $this->session->get('user');
 
         $submited = htmlspecialchars(trim($data['submitted']));
 
         if (!$submited) {
-            echo $this->render('blog/new.html.twig');
+            $this->render('blog/new.html.twig');
             exit();
         }
 
@@ -71,16 +79,15 @@ class BlogController extends Controller
         return $this->db->insert($post);
     }
 
-    public function updatePost($id, $title, $content)
-    {
-        $stmt = $this->db->prepare('UPDATE posts SET title = ?, content = ? WHERE id = ?');
-        return $stmt->execute([$title, $content, $id]);
-    }
+    // public function updatePost($id, $title, $content)
+    // {
+    //     $stmt = $this->db->prepare('UPDATE posts SET title = ?, content = ? WHERE id = ?');
+    //     return $stmt->execute([$title, $content, $id]);
+    // }
 
-    public function deletePost($id)
-    {
-        $stmt = $this->db->prepare('DELETE FROM posts WHERE id = ?');
-        return $stmt->execute([$id]);
-    }
-
+    // public function deletePost($id)
+    // {
+    //     $stmt = $this->db->prepare('DELETE FROM posts WHERE id = ?');
+    //     return $stmt->execute([$id]);
+    // }
 }
