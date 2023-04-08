@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Connexion | Blog{% endblock %}
+
+{% block headerImage %}
+    <header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
+{% endblock %}
+
+{% block headerContent %}
+    </header>
+{% endblock %}
+
+{% block main %}
+<div class="container px-4 px-lg-5 py-3">
+    <h4 class="text-center">Connexion</h4>
+    <form action="" method="post">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Entrer votre email">
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+        </div>
+        <div class="d-grid gap-2 mt-3">
+            <input type="hidden" name="submitted" value="1" />
+            <button type="submit" class="btn btn-primary">Connexion</button>
+        </div>
+      </form>
+      
+</div>
+{% endblock %}
