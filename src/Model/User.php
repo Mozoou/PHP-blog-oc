@@ -73,7 +73,7 @@ class User extends Model
 
         return $this;
     }
- 
+
     public function getPassword(): string
     {
         return $this->password;

@@ -13,7 +13,7 @@ class Post extends Model
     protected string $content;
 
     protected string $image;
-    
+
     protected int $author;
 
     public static function getTable(): string

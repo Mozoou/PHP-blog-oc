@@ -20,3 +20,6 @@
 
 .php-cs-fixer.cache
 issues.md
+.env.local
+
+/tools

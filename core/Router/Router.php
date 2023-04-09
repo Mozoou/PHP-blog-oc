@@ -9,7 +9,7 @@ class Router
     private const METHOD_GET = 'GET';
     private const METHOD_POST = 'POST';
 
-    private ?Request $request = null;  
+    private ?Request $request = null;
     public array $handlers = [];
 
     private static ?self $_instance = null;
@@ -71,7 +71,7 @@ class Router
                 $requestPath === $handler['path']
                 && $requestMethod === $handler['method']
             ) {
-                $controller = new $handler['controller'];
+                $controller = new $handler['controller']();
                 $callback = [$controller, $handler['controllerMethod']];
             }
         }
@@ -81,6 +81,16 @@ class Router
         }
 
         return $callback();
+    }
+
+    public function redirectToRoute(string $path)
+    {
+        foreach ($this->handlers as $handler) {
+            if ($path === $handler['path']) {
+                $controller = new $handler['controller']();
+                $controller->$handler['controllerMethod']();
+            }
+        }
     }
 
     /**

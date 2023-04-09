@@ -115,7 +115,7 @@ class RegistrationController extends Controller
                     $user->$method($value);
                 }
             }
-            
+
             return $user;
 
             // Faites quelque chose avec les données, comme les stocker dans une base de données

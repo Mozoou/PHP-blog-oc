@@ -8,7 +8,7 @@ use App\Controller\HomeController;
 use App\Controller\LoginController;
 use App\Controller\RegistrationController;
 
-$router = new Router;
+$router = new Router();
 
 $router->get('/blog/view', BlogController::class, 'view');
 $router->get('/blog', BlogController::class, 'index');
@@ -23,7 +23,5 @@ $router->get('/register', RegistrationController::class, 'index');
 $router->get('/login', LoginController::class, 'login');
 $router->post('/login', LoginController::class, 'login');
 $router->get('/logout', LoginController::class, 'logout');
-
-
 
 $router->run();

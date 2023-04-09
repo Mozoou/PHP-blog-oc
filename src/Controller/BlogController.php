@@ -23,11 +23,11 @@ class BlogController extends Controller
      * View one post
      * @return void
      */
-    public function view(): void 
+    public function view(): void
     {
         $_id = $this->request->get('id');
         if ($_id) {
-            $post = $this->db->fetchOneById(Post::class, intval($_id));
+            $post = $this->db->fetchOneById(Post::class, (int)$_id);
             if ($post) {
                 $this->render('blog/view.html.twig', [
                     'post' => $post,
@@ -42,18 +42,17 @@ class BlogController extends Controller
 
     /**
      * Create a new post
-     * @return bool | void
+     * @return mixed
      */
-    public function new(): bool
+    public function new(): mixed
     {
-        $data = $this->request->post->toArray();
+        // $data = $this->request->post->toArray();
 
         /** @var User $user */
         $user = null;
         // vérifier si l'utilisateur est bien connecté
-        if (!$this->session->get('user')) {
-            header('Location: /login');
-            exit();
+        if (null === $this->session->get('user')) {
+            return $this->router->redirectToRoute('/login');
         }
 
         $user = $this->session->get('user');
@@ -61,8 +60,7 @@ class BlogController extends Controller
         $submited = htmlspecialchars(trim($data['submitted']));
 
         if (!$submited) {
-            $this->render('blog/new.html.twig');
-            exit();
+            return $this->render('blog/new.html.twig');
         }
 
         $data = [
@@ -73,7 +71,7 @@ class BlogController extends Controller
             'author' => $user->getId(),
         ];
 
-        $post = new Post;
+        $post = new Post();
         $post->setDataFromArray($data);
 
         return $this->db->insert($post);
