@@ -21,6 +21,5 @@
 .php-cs-fixer.cache
 issues.md
 .env.local
-/uml_diags
 /tools
 .env
