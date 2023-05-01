@@ -6,7 +6,9 @@ use Core\App;
 
 abstract class Controller
 {
-    protected ?App $app = null; 
+
+    /** @var App $app */
+    protected ?App $app = null;
 
     public function __construct()
     {
@@ -15,11 +17,14 @@ abstract class Controller
 
     public function render(string $path, ?array $params = [])
     {
-        echo $this->app->twig->render($path, [
-            ...$params,
-            'user' => htmlspecialchars($this->app->session->get('user', null)),
-            'flashes' => $this->app->flash->all(),
-        ]);
+        echo $this->app->twig->render(
+            $path,
+            [
+                ...$params,
+                'user' => htmlspecialchars($this->app->session->get('user', null)),
+                'flashes' => $this->app->flash->all(),
+            ]
+        );
     }
 
     public function redirect(string $path = '', array $params = [])

@@ -6,6 +6,10 @@ abstract class Model
 {
     abstract public static function getTable(): string;
 
+    /**
+     * Transform Object to array
+     * @return []
+     */
     public function toArray(): array
     {
         $vars = get_object_vars($this);

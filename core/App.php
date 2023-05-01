@@ -15,20 +15,29 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class App
 {
+
+    /** @var Dotenv $dotenv */
     public ?Dotenv $dotenv = null;
 
+    /** @var Db $db */
     public ?Db $db = null;
 
+    /** @var FlashBag $flash */
     public ?FlashBag $flash = null;
 
+    /** @var Router $router */
     public ?Router $router = null;
     
+    /** @var Environment $twig */
     public ?Environment $twig = null;
 
+    /** @var Slugify $slugify */
     public ?Slugify $slugify = null;
 
+    /** @var Session $session */
     public ?Session $session = null;
 
+    /** @var Request $request */
     public ?Request $request = null;
 
     private static ?self $_instance = null;

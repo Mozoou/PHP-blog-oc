@@ -13,9 +13,12 @@ class BlogController extends Controller
         /* @var array $posts */
         $posts = $this->app->db->fetchAll(Post::class, 'DESC');
 
-        return $this->render('blog/index.html.twig', [
-            'posts' => $posts,
-        ]);
+        return $this->render(
+            'blog/index.html.twig',
+            [
+                'posts' => $posts,
+            ]
+        );
     }
 
     /**
@@ -25,8 +28,8 @@ class BlogController extends Controller
     public function view(): void
     {
         $_id = $this->app->request->get('id');
-        if ($_id) {
-            $post = $this->app->db->fetchOneById(Post::class, (int)$_id);
+        if ($_id !== null) {
+            $post = $this->app->db->fetchOneById(Post::class, (int) $_id);
             if ($post) {
                 $this->render('blog/view.html.twig', [
                     'post' => $post,
@@ -55,7 +58,7 @@ class BlogController extends Controller
         /** @var User $user */
         $user = null;
         // vérifier si l'utilisateur est bien connecté
-        if (null === $this->app->session->get('user')) {
+        if ($this->app->session->get('user') === null) {
             return $this->redirect('login');
         }
 
@@ -86,7 +89,6 @@ class BlogController extends Controller
             $this->app->flash->add(FlashBag::TYPE_ERROR, 'Il y a eu une erreur lors de l\'enregistrement.');
             return $this->render('blog/new.html.twig');
         }
-
     }
 
     // public function updatePost($id, $title, $content)

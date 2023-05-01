@@ -24,7 +24,7 @@ class LoginController extends Controller
         $password = htmlspecialchars(trim($this->app->request->request->get('password')));
 
         // Check if username and password are not empty
-        if (empty($email) || empty($password)) {
+        if ($email !== null || $password !== null) {
             header('Location: /login');
             $this->app->flash->add(FlashBag::TYPE_ERROR, 'Tout les champs sont requis');
             return false;
@@ -33,16 +33,15 @@ class LoginController extends Controller
         /** @var User|null $user */
         $user = $this->app->db->fetchOneBy(User::class, ['email' => $email]);
 
-        if (
-            $user
+        if ($user
             && password_verify($password, $user->getPassword())
         ) {
-            // Login successful, set session variables
+            // Login successful, set session variables !
             $this->app->session->set('user', $user);
             $this->app->flash->add(FlashBag::TYPE_SUCCESS, 'Connexion réussi');
             return $this->redirect();
         } else {
-            // Login failed
+            // Login failed ?
             $this->app->flash->add(FlashBag::TYPE_ERROR, 'L\'adresse mail ou le mot de passe est invalide');
             return $this->redirect('login');
         }

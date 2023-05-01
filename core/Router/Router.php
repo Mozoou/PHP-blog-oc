@@ -9,9 +9,12 @@ class Router
     private const METHOD_GET = 'GET';
     private const METHOD_POST = 'POST';
 
+    /** @var Request $request */
     private ?Request $request = null;
+    /** @var array $handlers */
     public array $handlers = [];
 
+    /** @var Router $_instance */
     private static ?self $_instance = null;
 
     public function __construct()
@@ -67,8 +70,7 @@ class Router
         $callback = null;
 
         foreach ($this->handlers as $handler) {
-            if (
-                $requestPath === $handler['path']
+            if ($requestPath === $handler['path']
                 && $requestMethod === $handler['method']
             ) {
                 $controller = new $handler['controller']();
@@ -98,7 +100,7 @@ class Router
      */
     private function addHandler(string $path, string $method, string $controller, string $controllerMethod): void
     {
-        $this->handlers[$method . $path] = [
+        $this->handlers[$method.$path] = [
             'path' => $path,
             'method' => $method,
             'controller' => $controller,

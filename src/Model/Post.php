@@ -4,16 +4,23 @@ namespace App\Model;
 
 class Post extends Model
 {
+
+    /** @var int $id */
     protected int $id;
 
+    /** @var string $title */
     protected string $title;
 
+    /** @var string $slug */
     protected string $slug;
 
+    /** @var string $content */
     protected string $content;
 
+    /** @var string $image */
     protected string $image;
 
+    /** @var int $author */
     protected int $author;
 
     public static function getTable(): string

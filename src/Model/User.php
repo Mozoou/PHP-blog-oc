@@ -4,16 +4,23 @@ namespace App\Model;
 
 class User extends Model
 {
+
+    /** @var int $id */
     protected int $id;
 
+    /** @var string $fname */
     protected string $fname;
 
+    /** @var string $lname */
     protected string $lname;
 
+    /** @var string $pseudo */
     protected string $pseudo;
 
+    /** @var string $email */
     protected string $email;
 
+    /** @var string $password */
     protected string $password;
 
     public static function getTable(): string
