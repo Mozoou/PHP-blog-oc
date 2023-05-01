@@ -2,8 +2,6 @@
 
 namespace Core\Database;
 
-use Core\Config;
-
 class Db
 {
     private \PDO $pdo;
@@ -20,14 +18,12 @@ class Db
 
     public function __construct()
     {
-        $config = Config::getInstance();
-
-        $this->pdo = new \PDO($config->get('dsn'), $config->get('user'), $config->get('password'));
+        $this->pdo = new \PDO(getenv('DSN'), ucfirst(getenv('USER')), getenv('PASSWORD'));
     }
 
-    public function insert(object $model): bool
+    public function insert(object $model): int
     {
-        $query = $this->pdo->query('INSERT INTO '. $model->getTable() .' (' . implode(',', array_keys($model->toArray())) . ') VALUES (' . "'" . implode("','", $model->toArray()) . "'" . ')');
+        $this->pdo->query('INSERT INTO '. $model->getTable() .' (' . implode(',', array_keys($model->toArray())) . ') VALUES (' . "'" . implode("','", $model->toArray()) . "'" . ')');
         return $this->pdo->lastInsertId($model->getTable());
     }
 
@@ -54,10 +50,9 @@ class Db
         return $stmt->fetchObject($modelFqcn);
     }
 
-    public function fetchAll(string $modelFqcn): array
+    public function fetchAll(string $modelFqcn, string $sortBy): array
     {
-        $statement = $this->pdo->query('SELECT * FROM ' . $modelFqcn::getTable());
-
+        $statement = $this->pdo->query('SELECT * FROM ' . $modelFqcn::getTable() . ' ORDER BY ID ' . $sortBy . ';');
         return $statement->fetchAll($this->pdo::FETCH_CLASS, $modelFqcn);
     }
 }

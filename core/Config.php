@@ -14,7 +14,7 @@ class Config
 
     public static function getInstance()
     {
-        if (is_null(self::$_instance)) {
+        if (self::$_instance === null) {
             self::$_instance = new Config();
         }
         return self::$_instance;
@@ -22,9 +22,8 @@ class Config
 
     public function __construct()
     {
-        $this->dotenv = Dotenv::createImmutable(dirname(__DIR__));
+        $this->dotenv = Dotenv::createUnsafeImmutable(dirname(__DIR__));
         $this->dotenv->load();
-        $this->settings = require '../config/config.php';
     }
 
     public function get(string $key): ?string

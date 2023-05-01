@@ -7,49 +7,44 @@ use Berlioz\FlashBag\FlashBag;
 
 class LoginController extends Controller
 {
-    public function login(): string | bool
+    public function login()
     {
-        if ($this->session->get('user')) {
-            header('Location: /');
-            exit();
+        if ($this->app->session->get('user')) {
+            $this->redirect();
         }
 
-        $submited = htmlspecialchars(trim($this->request->request->get('submitted')));
+        $submited = htmlspecialchars(trim($this->app->request->request->get('submitted')));
 
         if (!$submited) {
             return $this->render('login/form.html.twig');
         }
 
         // Sanitize inputs
-        $email = htmlspecialchars(trim($this->request->request->get('email')));
-        $password = htmlspecialchars(trim($this->request->request->get('password')));
+        $email = htmlspecialchars(trim($this->app->request->request->get('email')));
+        $password = htmlspecialchars(trim($this->app->request->request->get('password')));
 
         // Check if username and password are not empty
         if (empty($email) || empty($password)) {
             header('Location: /login');
-            $this->flash->add(FlashBag::TYPE_ERROR, 'Tout les champs sont requis');
+            $this->app->flash->add(FlashBag::TYPE_ERROR, 'Tout les champs sont requis');
             return false;
         }
 
         /** @var User|null $user */
-        $user = $this->db->fetchOneBy(User::class, ['email' => $email]);
+        $user = $this->app->db->fetchOneBy(User::class, ['email' => $email]);
 
         if (
             $user
             && password_verify($password, $user->getPassword())
         ) {
             // Login successful, set session variables
-            $this->session->set('user', $user);
-            $this->flash->add(FlashBag::TYPE_SUCCESS, 'Connexion réussi');
-            header('Location: /');
-            return true;
-            exit();
+            $this->app->session->set('user', $user);
+            $this->app->flash->add(FlashBag::TYPE_SUCCESS, 'Connexion réussi');
+            return $this->redirect();
         } else {
             // Login failed
-            $this->flash->add(FlashBag::TYPE_ERROR, 'L\'adresse mail ou le mot de passe est invalide');
-            header('Location: /login');
-            return false;
-            exit();
+            $this->app->flash->add(FlashBag::TYPE_ERROR, 'L\'adresse mail ou le mot de passe est invalide');
+            return $this->redirect('login');
         }
     }
 
@@ -58,7 +53,6 @@ class LoginController extends Controller
         session_start();
         session_unset();
         session_destroy();
-        header('Location: /');
-        exit();
+        $this->redirect();
     }
 }

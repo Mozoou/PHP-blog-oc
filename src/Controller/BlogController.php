@@ -4,15 +4,14 @@ namespace App\Controller;
 
 use App\Model\Post;
 use App\Model\User;
+use Berlioz\FlashBag\FlashBag;
 
 class BlogController extends Controller
 {
     public function index()
     {
         /* @var array $posts */
-        $posts = $this->db->fetchAll(Post::class, [
-            'orderBy' => 'DESC',
-        ]);
+        $posts = $this->app->db->fetchAll(Post::class, 'DESC');
 
         return $this->render('blog/index.html.twig', [
             'posts' => $posts,
@@ -25,9 +24,9 @@ class BlogController extends Controller
      */
     public function view(): void
     {
-        $_id = $this->request->get('id');
+        $_id = $this->app->request->get('id');
         if ($_id) {
-            $post = $this->db->fetchOneById(Post::class, (int)$_id);
+            $post = $this->app->db->fetchOneById(Post::class, (int)$_id);
             if ($post) {
                 $this->render('blog/view.html.twig', [
                     'post' => $post,
@@ -46,16 +45,21 @@ class BlogController extends Controller
      */
     public function new(): mixed
     {
-        // $data = $this->request->post->toArray();
+        $data = [
+            'title' => $this->app->request->request->get('title'),
+            'file' => $this->app->request->request->get('file'),
+            'content' => $this->app->request->request->get('content'),
+            'submitted' => $this->app->request->request->get('submitted'),
+        ];
 
         /** @var User $user */
         $user = null;
         // vérifier si l'utilisateur est bien connecté
-        if (null === $this->session->get('user')) {
-            return $this->router->redirectToRoute('/login');
+        if (null === $this->app->session->get('user')) {
+            return $this->redirect('login');
         }
 
-        $user = $this->session->get('user');
+        $user = $this->app->session->get('user');
 
         $submited = htmlspecialchars(trim($data['submitted']));
 
@@ -66,7 +70,7 @@ class BlogController extends Controller
         $data = [
             'title' => htmlspecialchars(trim($data['title'])),
             'image' => htmlspecialchars(trim($data['file'])),
-            'slug' => $this->slugify->slugify(htmlspecialchars(trim($data['title']))),
+            'slug' => $this->app->slugify->slugify(htmlspecialchars(trim($data['title']))),
             'content' => htmlspecialchars(trim($data['content'])),
             'author' => $user->getId(),
         ];
@@ -74,18 +78,26 @@ class BlogController extends Controller
         $post = new Post();
         $post->setDataFromArray($data);
 
-        return $this->db->insert($post);
+
+        try {
+            $id = $this->app->db->insert($post);
+            return $this->redirect('blog/view', ['id' => $id]);
+        } catch (\Throwable $th) {
+            $this->app->flash->add(FlashBag::TYPE_ERROR, 'Il y a eu une erreur lors de l\'enregistrement.');
+            return $this->render('blog/new.html.twig');
+        }
+
     }
 
     // public function updatePost($id, $title, $content)
     // {
-    //     $stmt = $this->db->prepare('UPDATE posts SET title = ?, content = ? WHERE id = ?');
+    //     $stmt = $this->app->db->prepare('UPDATE posts SET title = ?, content = ? WHERE id = ?');
     //     return $stmt->execute([$title, $content, $id]);
     // }
 
     // public function deletePost($id)
     // {
-    //     $stmt = $this->db->prepare('DELETE FROM posts WHERE id = ?');
+    //     $stmt = $this->app->db->prepare('DELETE FROM posts WHERE id = ?');
     //     return $stmt->execute([$id]);
     // }
 }

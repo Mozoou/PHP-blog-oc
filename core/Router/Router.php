@@ -60,7 +60,7 @@ class Router
      * Run controllerMethod route called
      * @return void
      */
-    public function run(): callable | null
+    public function run(): mixed
     {
         $requestPath = $this->request->getPathInfo();
         $requestMethod = $this->request->getMethod();
@@ -72,15 +72,10 @@ class Router
                 && $requestMethod === $handler['method']
             ) {
                 $controller = new $handler['controller']();
-                $callback = [$controller, $handler['controllerMethod']];
+                return $controller->{$handler['controllerMethod']}();
             }
         }
-
-        if (!$callback) {
-            return null;
-        }
-
-        return $callback();
+        return null;
     }
 
     public function redirectToRoute(string $path)

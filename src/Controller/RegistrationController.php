@@ -9,9 +9,8 @@ class RegistrationController extends Controller
 {
     public function index()
     {
-        if ($this->session->get('user')) {
-            header('Location: /');
-            exit();
+        if ($this->app->session->get('user')) {
+            $this->redirect();
         }
 
         return $this->render('registration/form.html.twig');
@@ -19,25 +18,25 @@ class RegistrationController extends Controller
 
     public function register()
     {
-        $form = $this->request->post->toArray();
+        $form = [
+            'fname' => $this->app->request->request->get('fname'),
+            'lname' => $this->app->request->request->get('lname'),
+            'pseudo' => $this->app->request->request->get('pseudo'),
+            'email' => $this->app->request->request->get('email'),
+            'password' => $this->app->request->request->get('password'),
+        ];
         $user = $this->verify($form);
         $success = false;
         if ($user) {
-            $success = $this->db->insert($user);
+            $success = $this->app->db->insert($user);
         } else {
             return;
         }
 
         if ($success) {
-            $this->flash->add(FlashBag::TYPE_SUCCESS, 'Inscrit avec succès');
+            $this->app->flash->add(FlashBag::TYPE_SUCCESS, 'Inscrit avec succès');
         } else {
-            $this->flash->add(FlashBag::TYPE_ERROR, 'Erreur lors de l\'inscription');
-        }
-
-        $allMessages = $this->flash->all();
-
-        foreach ($allMessages as $type => $messages) {
-            print sprintf('<div class="alert alert-%s">%s</div>', $type, $messages);
+            $this->app->flash->add(FlashBag::TYPE_ERROR, 'Erreur lors de l\'inscription');
         }
 
         return $this->render('registration/form.html.twig');
