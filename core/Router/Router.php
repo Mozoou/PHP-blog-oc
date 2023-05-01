@@ -11,6 +11,7 @@ class Router
 
     /** @var Request $request */
     private ?Request $request = null;
+
     /** @var array $handlers */
     public array $handlers = [];
 
@@ -25,6 +26,7 @@ class Router
 
     /**
      * Retreive instance of Router (singelton)
+     * 
      * @return self
      */
     public static function getInstance(): self
@@ -37,6 +39,7 @@ class Router
 
     /**
      * Add a get route
+     * 
      * @param string $path
      * @param string $controller
      * @param string $controllerMethod
@@ -49,6 +52,7 @@ class Router
 
     /**
      * Add a post route
+     * 
      * @param string $path
      * @param string $controller
      * @param string $controllerMethod
@@ -61,13 +65,13 @@ class Router
 
     /**
      * Run controllerMethod route called
-     * @return void
+     * 
+     * @return mixed
      */
     public function run(): mixed
     {
         $requestPath = $this->request->getPathInfo();
         $requestMethod = $this->request->getMethod();
-        $callback = null;
 
         foreach ($this->handlers as $handler) {
             if ($requestPath === $handler['path']
@@ -80,7 +84,13 @@ class Router
         return null;
     }
 
-    public function redirectToRoute(string $path)
+    /**
+     * Redirect to a route
+     * 
+     * @param string $path Path parameter
+     * @return void
+     */
+    public function redirectToRoute(string $path): void
     {
         foreach ($this->handlers as $handler) {
             if ($path === $handler['path']) {
@@ -92,6 +102,7 @@ class Router
 
     /**
      * Add a route to handlers array
+     * 
      * @param string $path
      * @param string $method
      * @param string $controller

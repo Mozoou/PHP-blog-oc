@@ -7,6 +7,9 @@ use Berlioz\FlashBag\FlashBag;
 
 class RegistrationController extends Controller
 {
+    /** 
+     * Register form
+     */
     public function index()
     {
         if ($this->app->session->get('user')) {
@@ -16,6 +19,9 @@ class RegistrationController extends Controller
         return $this->render('registration/form.html.twig');
     }
 
+    /**
+     * Processing register form
+     */
     public function register()
     {
         $form = [
@@ -42,6 +48,11 @@ class RegistrationController extends Controller
         return $this->render('registration/form.html.twig');
     }
 
+    /**
+     * Verify register form data if they are correct
+     * 
+     * @param array $data Data parameter
+     */
     private function verify(array $data): ?User
     {
         $errors = [];

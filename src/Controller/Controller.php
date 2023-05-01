@@ -15,6 +15,12 @@ abstract class Controller
         $this->app = App::getInstance();
     }
 
+    /** 
+     * Render a template from a path
+     * 
+     * @param string $path Path parameter
+     * @param ?array $params Params parameter
+     */
     public function render(string $path, ?array $params = [])
     {
         echo $this->app->twig->render(
@@ -27,11 +33,21 @@ abstract class Controller
         );
     }
 
-    public function redirect(string $path = '', array $params = [])
+    /**
+     * Redirect to a route with optional params
+     * 
+     * @param string $path Path parameter
+     * @param ?array $params Params parameter 
+     */
+    public function redirect(string $path = '', ?array $params = [])
     {
-        $paramsToString = '?';
+        $paramsToString = '';
         $i = 0;
         foreach ($params as $key => $value) {
+            if ($i === 0) {
+                $paramsToString .= '?';
+            }
+
             if ($i > 0) {
                 $paramsToString .= '&';
             }
@@ -39,7 +55,6 @@ abstract class Controller
             $paramsToString .= $key . '=' . $value;
             $i++;
         }
-        header("Location: /$path$paramsToString");
-        die();
+        return header("Location: /$path$paramsToString");
     }
 }

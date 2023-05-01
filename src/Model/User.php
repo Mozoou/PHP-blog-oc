@@ -5,7 +5,7 @@ namespace App\Model;
 class User extends Model
 {
 
-    /** @var int $id */
+    /** @var integer $id */
     protected int $id;
 
     /** @var string $fname */

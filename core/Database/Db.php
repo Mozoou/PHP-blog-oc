@@ -21,18 +21,38 @@ class Db
         $this->pdo = new \PDO(getenv('DSN'), ucfirst(getenv('USER')), getenv('PASSWORD'));
     }
 
+    /**
+     * Insert data into database
+     * 
+     * @param object $model Model parameter
+     * @return integer
+     */
     public function insert(object $model): int
     {
         $this->pdo->query('INSERT INTO '. $model->getTable() .' (' . implode(',', array_keys($model->toArray())) . ') VALUES (' . "'" . implode("','", $model->toArray()) . "'" . ')');
         return $this->pdo->lastInsertId($model->getTable());
     }
 
+    /**
+     * Fetch a data by id
+     * 
+     * @param string $modelFqcn ModelFqcn parameter
+     * @param integer $id Id parameter
+     * @return object|bool
+     */
     public function fetchOneById(string $modelFqcn, int $id): object | bool
     {
         $query = $this->pdo->query('SELECT * FROM ' . $modelFqcn::getTable() . ' WHERE id = '. $id);
         return $query->fetchObject($modelFqcn);
     }
 
+    /**
+     * Fetch one by params
+     * 
+     * @param string $modelFqcn ModelFqcn parameter
+     * @param array $by By parameter
+     * @return object|bool
+     */
     public function fetchOneBy(string $modelFqcn, array $by): object | bool
     {
         $sql = 'SELECT * FROM '. $modelFqcn::getTable() .' WHERE ' . array_keys($by)[0] . ' = ? ';
@@ -50,6 +70,13 @@ class Db
         return $stmt->fetchObject($modelFqcn);
     }
 
+    /** 
+     * Fetch all data of a model
+     * 
+     * @param string $modelFqcn ModelFqcn parameter
+     * @param string $sortBy SortBy parameter
+     * @return []
+     */
     public function fetchAll(string $modelFqcn, string $sortBy): array
     {
         $statement = $this->pdo->query('SELECT * FROM ' . $modelFqcn::getTable() . ' ORDER BY ID ' . $sortBy . ';');

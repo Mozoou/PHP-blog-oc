@@ -7,6 +7,9 @@ use Berlioz\FlashBag\FlashBag;
 
 class LoginController extends Controller
 {
+    /**
+     * Login form
+     */
     public function login()
     {
         if ($this->app->session->get('user')) {
@@ -24,7 +27,7 @@ class LoginController extends Controller
         $password = htmlspecialchars(trim($this->app->request->request->get('password')));
 
         // Check if username and password are not empty
-        if ($email !== null || $password !== null) {
+        if ($email === null || $password === null) {
             header('Location: /login');
             $this->app->flash->add(FlashBag::TYPE_ERROR, 'Tout les champs sont requis');
             return false;
@@ -33,7 +36,7 @@ class LoginController extends Controller
         /** @var User|null $user */
         $user = $this->app->db->fetchOneBy(User::class, ['email' => $email]);
 
-        if ($user
+        if ($user !== null
             && password_verify($password, $user->getPassword())
         ) {
             // Login successful, set session variables !
@@ -47,11 +50,14 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * Logout
+     * 
+     * @return void
+     */
     public function logout(): void
     {
-        session_start();
-        session_unset();
-        session_destroy();
+        $this->app->session->remove('user');
         $this->redirect();
     }
 }

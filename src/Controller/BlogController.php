@@ -8,6 +8,11 @@ use Berlioz\FlashBag\FlashBag;
 
 class BlogController extends Controller
 {
+    /**
+     * Retreive all the blogpost
+     * 
+     *
+     */
     public function index()
     {
         /* @var array $posts */
@@ -23,6 +28,7 @@ class BlogController extends Controller
 
     /**
      * View one post
+     * 
      * @return void
      */
     public function view(): void
@@ -44,6 +50,7 @@ class BlogController extends Controller
 
     /**
      * Create a new post
+     * 
      * @return mixed
      */
     public function new(): mixed

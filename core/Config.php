@@ -12,7 +12,12 @@ class Config
 
     private ?Dotenv $dotenv = null;
 
-    public static function getInstance()
+    /**
+     * Retreive the instance of the Config (singelton)
+     * 
+     * @return Config
+     */
+    public static function getInstance(): self
     {
         if (self::$_instance === null) {
             self::$_instance = new Config();
@@ -26,6 +31,12 @@ class Config
         $this->dotenv->load();
     }
 
+    /**
+     * Get parameter by key
+     * 
+     * @param string $key Key parameter
+     * @return ?string
+     */
     public function get(string $key): ?string
     {
         return array_key_exists($key, $this->settings) ? $this->settings[$key] : null;

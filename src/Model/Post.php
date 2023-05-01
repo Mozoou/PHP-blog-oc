@@ -5,7 +5,7 @@ namespace App\Model;
 class Post extends Model
 {
 
-    /** @var int $id */
+    /** @var integer $id */
     protected int $id;
 
     /** @var string $title */
@@ -20,7 +20,7 @@ class Post extends Model
     /** @var string $image */
     protected string $image;
 
-    /** @var int $author */
+    /** @var integer $author */
     protected int $author;
 
     public static function getTable(): string
