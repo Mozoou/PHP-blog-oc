@@ -85,12 +85,9 @@ class RegistrationController extends Controller
 
         // Si des erreurs ont été détectées, affichez-les
         if (!empty($errors)) {
-            echo "<ul>";
             foreach ($errors as $error) {
-                echo "<li>$error</li>";
+                $this->app->flash->add(FlashBag::TYPE_ERROR, $error);
             }
-            echo "</ul>";
-
             return null;
         } else {
             // Sinon, traitez les données du formulaire
@@ -116,9 +113,6 @@ class RegistrationController extends Controller
             }
 
             return $user;
-
-            // Faites quelque chose avec les données, comme les stocker dans une base de données
-            // ou les envoyer par e-mail, etc.
         }
     }
 }
