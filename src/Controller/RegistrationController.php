@@ -90,8 +90,6 @@ class RegistrationController extends Controller
             $errors[] = "Le champ 'Mot de passe' est obligatoire";
         } elseif (strlen($data['password']) < 8) {
             $errors[] = "Le champ 'Mot de passe' doit contenir au moins 8 caractères";
-        } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', $data['password'])) {
-            $errors[] = "Le champ 'Mot de passe' doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial";
         }
 
         // Si des erreurs ont été détectées, affichez-les
@@ -111,6 +109,7 @@ class RegistrationController extends Controller
             ];
 
             $user = new User();
+            $user->setRoles(json_encode([User::ROLE_USER]));
 
             foreach ($data as $method => $value) {
                 if ('password' === $method) {

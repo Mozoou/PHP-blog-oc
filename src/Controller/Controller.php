@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Model\User;
 use Core\App;
 
 abstract class Controller
@@ -56,5 +57,10 @@ abstract class Controller
             $i++;
         }
         return header("Location: /$path$paramsToString");
+    }
+
+    protected function isGranted(User $user, string $role): bool
+    {
+        return in_array($role, json_decode($user->getRoles()));
     }
 }

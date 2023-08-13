@@ -5,6 +5,9 @@ namespace App\Model;
 class User extends Model
 {
 
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_USER = 'ROLE_USER';
+
     /** @var integer $id */
     protected int $id;
 
@@ -22,6 +25,9 @@ class User extends Model
 
     /** @var string $password */
     protected string $password;
+
+    /** @var string $roles */
+    protected string $roles = '';
 
     public static function getTable(): string
     {
@@ -95,6 +101,18 @@ class User extends Model
 
     public function __toString(): string
     {
-        return $this->getFname() . $this->getLname();
+        return $this->getFname().' '.$this->getLname();
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 }

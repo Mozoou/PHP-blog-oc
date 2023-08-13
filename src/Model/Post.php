@@ -18,7 +18,7 @@ class Post extends Model
     protected string $content;
 
     /** @var string $image */
-    protected string $image;
+    protected ?string $image = null;
 
     /** @var integer $author */
     protected int $author;
@@ -74,7 +74,7 @@ class Post extends Model
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 

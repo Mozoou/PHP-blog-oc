@@ -36,7 +36,8 @@ class LoginController extends Controller
         /** @var User|null $user */
         $user = $this->app->db->fetchOneBy(User::class, ['email' => $email]);
 
-        if ($user !== null
+
+        if ($user !== false
             && password_verify($password, $user->getPassword())
         ) {
             // Login successful, set session variables !

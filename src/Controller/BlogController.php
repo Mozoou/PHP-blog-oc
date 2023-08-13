@@ -98,15 +98,53 @@ class BlogController extends Controller
         }
     }
 
-    // public function updatePost($id, $title, $content)
-    // {
-    //     $stmt = $this->app->db->prepare('UPDATE posts SET title = ?, content = ? WHERE id = ?');
-    //     return $stmt->execute([$title, $content, $id]);
-    // }
+    public function edit()
+    {
+        $_id = $this->app->request->get('id');
+        $post = $this->app->db->fetchOneById(Post::class, (int) $_id);
 
-    // public function deletePost($id)
-    // {
-    //     $stmt = $this->app->db->prepare('DELETE FROM posts WHERE id = ?');
-    //     return $stmt->execute([$id]);
-    // }
+        $data = [
+            'title' => $this->app->request->request->get('title'),
+            'image' => $this->app->request->request->get('image'),
+            'content' => $this->app->request->request->get('content'),
+            'submitted' => $this->app->request->request->get('submitted'),
+        ];
+
+        /** @var User $user */
+        $user = null;
+        // vérifier si l'utilisateur est bien connecté
+        if ($this->app->session->get('user') === null) {
+            return $this->redirect('login');
+        }
+
+        $user = $this->app->session->get('user');
+
+        $submited = htmlspecialchars(trim($data['submitted']));
+
+        if (!$submited) {
+            return $this->render('blog/edit.html.twig', [
+                'post' => $post,
+            ]);
+        }
+
+        unset($data['submitted']);
+        $post = new Post();
+        $post->setDataFromArray($data);
+
+        if ($post && $submited) {
+            $this->app->db->update($post, $_id);
+            return $this->index();
+        }
+    }
+
+    public function delete()
+    {
+        $_id = $this->app->request->get('id');
+        $post = $this->app->db->fetchOneById(Post::class, (int) $_id);
+
+        if ($post) {
+            $this->app->db->delete($post, $_id);
+            return $this->index();
+        }
+    }
 }

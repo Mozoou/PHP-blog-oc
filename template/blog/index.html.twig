@@ -37,6 +37,10 @@
                             {{ post.content|length|raw > 50 ? post.content|striptags|slice(0, 50) ~ '...' : post.content|raw  }}
                         </p>
                     </div>
+                    <div class="post-actions">
+                        <a class="btn btn-success" href="/blog/edit?id={{ post.id }}">Editer</a>
+                        <a class="btn btn-danger" href="/blog/delete?id={{ post.id }}" onclick="return confirm('Are you sure you want to delete this post ?')">Supprimer</a>
+                    </div>
                     <!-- Divider-->
                     <hr class="my-4" />
                 {% endfor %}

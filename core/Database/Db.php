@@ -29,8 +29,51 @@ class Db
      */
     public function insert(object $model): int
     {
-        $this->pdo->query('INSERT INTO '. $model->getTable() .' (' . implode(',', array_keys($model->toArray())) . ') VALUES (' . "'" . implode("','", $model->toArray()) . "'" . ')');
+        try {
+            $this->pdo->query('INSERT INTO '. $model->getTable() .' (' . implode(',', array_keys($model->toArray())) . ') VALUES (' . "'" . implode("','", $model->toArray()) . "'" . ')');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
         return $this->pdo->lastInsertId($model->getTable());
+    }
+
+    public function update(object $model, int $id): int
+    {
+        $str = '';
+        $i = 0;
+        foreach (array_reverse($model->toArray()) as $key => $value) {
+            if ($i + 1 === count($model->toArray())
+                && $key === 'id'
+            ) {
+                break;
+            }
+            if ($i !== 0) {
+                $str .= ', ';
+            }
+            $str .= $key.'='."'" . str_replace("'", "\'",$value) . "'" ;
+            $i++;
+        }
+
+        $str .= ' WHERE id = '.$id;
+
+        try {
+            $this->pdo->query('UPDATE '. $model->getTable() .' SET '.$str);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        return $this->pdo->lastInsertId($model->getTable());
+    }
+
+    public function delete(object $model, int $id): bool
+    {
+        try {
+            $this->pdo->query('DELETE FROM '.$model->getTable().' WHERE id = '.$id);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        return true;
     }
 
     /**

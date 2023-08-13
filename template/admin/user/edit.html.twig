@@ -1,0 +1,17 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Edit user{% endblock title %}
+
+{% block content %}
+<div id="layoutSidenav_content">
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Edit user : {{ userToEdit }}</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">edit</li>
+        </ol>
+        <div class="container mt-4">
+            {% include "admin/user/_form.html.twig" with { 'user' : userToEdit } %}
+        </div>
+    </div>
+</div>
+{% endblock %}
