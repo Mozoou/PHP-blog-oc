@@ -101,7 +101,7 @@ class User extends Model
 
     public function __toString(): string
     {
-        return $this->getFname().' '.$this->getLname();
+        return $this->getId();
     }
 
     public function getRoles()
@@ -114,5 +114,10 @@ class User extends Model
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->getFname().' '.$this->getLname();
     }
 }

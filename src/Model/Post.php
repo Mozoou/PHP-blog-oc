@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use Core\Database\Db;
+
 class Post extends Model
 {
 
@@ -20,8 +22,12 @@ class Post extends Model
     /** @var string $image */
     protected ?string $image = null;
 
-    /** @var integer $author */
+    /** @var int $author */
     protected int $author;
+
+    protected string $created_at;
+
+    protected string $updated_at;
 
     public static function getTable(): string
     {
@@ -81,9 +87,9 @@ class Post extends Model
         return $this;
     }
 
-    public function getAuthor(): int
+    public function getAuthor(): User
     {
-        return $this->author;
+        return $this->getAssociation($this->author, User::class);
     }
 
     public function setAuthor(int $author): self
@@ -91,5 +97,42 @@ class Post extends Model
         $this->author = $author;
 
         return $this;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(string $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(string $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getValidComments(): array
+    {
+        $comments = Db::getInstance()->fetchAllWithWhere(Comment::class, 'post_id', '=', $this->getId(), 'DESC');
+
+        foreach ($comments as $itr => $comment) {
+            if ($comment->getStatus() !== Comment::STATUS_VALID) {
+                unset($comments[$itr]);
+            }
+        }
+
+        return $comments;
     }
 }

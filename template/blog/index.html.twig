@@ -29,12 +29,13 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 {% for post in posts %}
                     <!-- Post preview-->
-                    <div class="post-preview">
+                    <div class="post-preview border p-3 my-2">
                         <a href="/blog/view?id={{ post.id }}">
                             <h2 class="post-title">{{ post.title }}</h2>
                         </a>
-                        <p class="post-meta">
-                            {{ post.content|length|raw > 50 ? post.content|striptags|slice(0, 50) ~ '...' : post.content|raw  }}
+                        <p>
+                            Date de dernière modification :
+                            {{ post.getUpdatedAt() }}
                         </p>
                     </div>
                     <div class="post-actions">

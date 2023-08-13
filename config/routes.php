@@ -20,6 +20,8 @@ $router->post('/blog/new', BlogController::class, 'new');
 $router->get('/blog/edit', BlogController::class, 'edit');
 $router->post('/blog/edit', BlogController::class, 'edit');
 $router->get('/blog/delete', BlogController::class, 'delete');
+$router->post('/blog/comment/add', BlogController::class, 'addComment');
+$router->get('/blog/comment/delete', BlogController::class, 'deleteComment');
 
 $router->get('/', HomeController::class, 'index');
 
@@ -28,6 +30,9 @@ $router->get('/register', RegistrationController::class, 'index');
 
 $router->get('/admin', DashboardController::class, 'index');
 $router->get('/admin/blog', BlogCrudController::class, 'index');
+$router->get('/admin/blog/comments', BlogCrudController::class, 'commentsIndex');
+$router->get('/admin/blog/comments/validate', BlogCrudController::class, 'validateComment');
+$router->get('/admin/blog/comments/delete', BlogCrudController::class, 'deleteComment');
 $router->get('/admin/users', UserCrudController::class, 'index');
 $router->get('/admin/users/edit', UserCrudController::class, 'edit');
 $router->post('/admin/users/edit', UserCrudController::class, 'edit');

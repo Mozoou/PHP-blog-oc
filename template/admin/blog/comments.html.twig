@@ -1,0 +1,51 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Comments index{% endblock %}
+
+{% block content %}
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Comments</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">index</li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Comments
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>Author</th>
+                                <th>Post</th>
+                                <th>Comment</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for comment in comments %}
+                            <tr>
+                                <td>{{ comment.getAuthor().getFullName() }}</td>
+                                <td>
+                                    <a href="/blog/view?id={{ comment.post_id }}">
+                                        Voir le post
+                                    </a>
+                                </td>
+                                <td>{{ comment.content }}</td>
+                                <td>
+                                    <a href="/admin/blog/comments/validate?id={{ comment.id }}" class="btn btn-primary">Valider le commantaire</a>
+                                    <a href="/admin/blog/comments/delete?id={{ comment.id }}" class="btn btn-danger">Supprimer le commantaire</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock content %}

@@ -125,4 +125,10 @@ class Db
         $statement = $this->pdo->query('SELECT * FROM ' . $modelFqcn::getTable() . ' ORDER BY ID ' . $sortBy . ';');
         return $statement->fetchAll($this->pdo::FETCH_CLASS, $modelFqcn);
     }
+
+    public function fetchAllWithWhere(string $modelFqcn, string $whereProperty, string $comparator, string $whereValue, string $sortBy): array
+    {
+        $statement = $this->pdo->query('SELECT * FROM ' . $modelFqcn::getTable() .' WHERE '.$whereProperty.' '.$comparator.' '.'"'.$whereValue.'"'.' ORDER BY ID ' . $sortBy . ';');
+        return $statement->fetchAll($this->pdo::FETCH_CLASS, $modelFqcn);
+    }
 }

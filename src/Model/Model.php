@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use Core\Database\Db;
+
 abstract class Model
 {
     abstract public static function getTable(): string;
@@ -13,6 +15,12 @@ abstract class Model
     public function toArray(): array
     {
         $vars = get_object_vars($this);
+
+        foreach ($vars as $name => $value) {
+            if ($value instanceof \DateTimeImmutable) {
+                $vars[$name] = $value->format('Y-m-d');
+            }
+        }
 
         return $vars;
     }
@@ -31,5 +39,10 @@ abstract class Model
         }
 
         return $this;
+    }
+
+    protected function getAssociation(int $id, string $class): ?object
+    {
+        return Db::getInstance()->fetchOneById($class, $id);
     }
 }

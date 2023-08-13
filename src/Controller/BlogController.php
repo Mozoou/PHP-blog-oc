@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Model\Comment;
 use App\Model\Post;
 use App\Model\User;
 use Berlioz\FlashBag\FlashBag;
@@ -39,6 +40,7 @@ class BlogController extends Controller
             if ($post) {
                 $this->render('blog/view.html.twig', [
                     'post' => $post,
+                    'comments' => $post->getValidComments(),
                 ]);
             } else {
                 // post not found
@@ -82,12 +84,13 @@ class BlogController extends Controller
             'image' => htmlspecialchars(trim($data['file'])),
             'slug' => $this->app->slugify->slugify(htmlspecialchars(trim($data['title']))),
             'content' => htmlspecialchars(trim($data['content'])),
-            'author' => $user->getId(),
+            'author' => $user,
         ];
 
         $post = new Post();
         $post->setDataFromArray($data);
-
+        $post->setCreatedAt((new \DateTimeImmutable())->format('Y-m-d'));
+        $post->setUpdatedAt((new \DateTimeImmutable())->format('Y-m-d'));
 
         try {
             $id = $this->app->db->insert($post);
@@ -117,8 +120,6 @@ class BlogController extends Controller
             return $this->redirect('login');
         }
 
-        $user = $this->app->session->get('user');
-
         $submited = htmlspecialchars(trim($data['submitted']));
 
         if (!$submited) {
@@ -130,6 +131,7 @@ class BlogController extends Controller
         unset($data['submitted']);
         $post = new Post();
         $post->setDataFromArray($data);
+        $post->setUpdatedAt((new \DateTimeImmutable())->format('Y-m-d'));
 
         if ($post && $submited) {
             $this->app->db->update($post, $_id);
@@ -146,5 +148,33 @@ class BlogController extends Controller
             $this->app->db->delete($post, $_id);
             return $this->index();
         }
+    }
+
+    public function addComment()
+    {
+        $data = [
+            'post_id' => htmlspecialchars(trim($this->app->request->query->get('id'))),
+            'content' => htmlspecialchars(trim($this->app->request->request->get('comment'))),
+            'author' => htmlspecialchars(trim($this->app->request->request->get('author'))),
+        ];
+
+        $comment = new Comment();
+        $comment->setStatus(Comment::STATUS_PENDING);
+        $comment->setDataFromArray($data);
+
+        try {
+            $id = $this->app->db->insert($comment);
+            $this->app->flash->add(FlashBag::TYPE_SUCCESS, 'Le commentaire est en attente de validation');
+        } catch (\Throwable $th) {
+            $this->app->flash->add(FlashBag::TYPE_ERROR, 'Il y a eu une erreur lors de l\'ajout du commentaire.');
+        }
+
+        return $this->redirect('blog/view', ['id' => $data['post_id']]);
+
+    }
+
+    public function deleteComment()
+    {
+
     }
 }
