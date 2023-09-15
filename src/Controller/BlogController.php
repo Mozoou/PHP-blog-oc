@@ -84,7 +84,7 @@ class BlogController extends Controller
             'image' => htmlspecialchars(trim($data['file'])),
             'slug' => $this->app->slugify->slugify(htmlspecialchars(trim($data['title']))),
             'content' => htmlspecialchars(trim($data['content'])),
-            'author' => $user,
+            'author' => $user->getId(),
         ];
 
         $post = new Post();
@@ -105,6 +105,17 @@ class BlogController extends Controller
     {
         $_id = $this->app->request->get('id');
         $post = $this->app->db->fetchOneById(Post::class, (int) $_id);
+        /** @var User $user */
+        $user = $this->app->session->get('user');
+        if ($user === null) {
+            return $this->redirect('login');
+        }
+
+        if ($user->getId() !== $post->getAuthor()->getId()
+            && $this->isGranted($user, User::ROLE_USER)
+        ) {
+            return $this->redirect('blog');
+        }
 
         $data = [
             'title' => $this->app->request->request->get('title'),
@@ -113,8 +124,7 @@ class BlogController extends Controller
             'submitted' => $this->app->request->request->get('submitted'),
         ];
 
-        /** @var User $user */
-        $user = null;
+        
         // vérifier si l'utilisateur est bien connecté
         if ($this->app->session->get('user') === null) {
             return $this->redirect('login');
@@ -143,6 +153,13 @@ class BlogController extends Controller
     {
         $_id = $this->app->request->get('id');
         $post = $this->app->db->fetchOneById(Post::class, (int) $_id);
+        $user = $this->app->session->get('user');
+
+        if ($user->getId() !== $post->getAuthor()->getId()
+            && $this->isGranted($user, User::ROLE_USER)
+        ) {
+            return $this->redirect('blog');
+        }
 
         if ($post) {
             $this->app->db->delete($post, $_id);
@@ -163,7 +180,7 @@ class BlogController extends Controller
         $comment->setDataFromArray($data);
 
         try {
-            $id = $this->app->db->insert($comment);
+            $this->app->db->insert($comment);
             $this->app->flash->add(FlashBag::TYPE_SUCCESS, 'Le commentaire est en attente de validation');
         } catch (\Throwable $th) {
             $this->app->flash->add(FlashBag::TYPE_ERROR, 'Il y a eu une erreur lors de l\'ajout du commentaire.');
@@ -175,6 +192,6 @@ class BlogController extends Controller
 
     public function deleteComment()
     {
-
+        // Implements this method
     }
 }

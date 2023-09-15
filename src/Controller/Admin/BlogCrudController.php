@@ -4,11 +4,17 @@ namespace App\Controller\Admin;
 
 use App\Model\Comment;
 use App\Model\Post;
+use Berlioz\FlashBag\FlashBag;
 
 class BlogCrudController extends AbstractCrudController
 {
     public function index()
     {
+        if (!$this->isAdmin()) {
+            $this->app->flash->add(FlashBag::TYPE_WARNING, 'Vous n\'etes pas connecter en tant qu\'admin');
+            return $this->redirect();
+        }
+
         /* @var array $posts */
         $posts = $this->app->db->fetchAll(Post::class, 'DESC');
 
@@ -23,6 +29,11 @@ class BlogCrudController extends AbstractCrudController
     public function commentsIndex()
     {
         /* @var array $comments */
+        if (!$this->isAdmin()) {
+            $this->app->flash->add(FlashBag::TYPE_WARNING, 'Vous n\'etes pas connecter en tant qu\'admin');
+            return $this->redirect();
+        }
+
         $comments =  $this->app->db->fetchAllWithWhere(Comment::class, 'status','!=' , Comment::STATUS_VALID, 'DESC');
 
         return $this->render(
@@ -35,6 +46,11 @@ class BlogCrudController extends AbstractCrudController
 
     public function validateComment()
     {
+        if (!$this->isAdmin()) {
+            $this->app->flash->add(FlashBag::TYPE_WARNING, 'Vous n\'etes pas connecter en tant qu\'admin');
+            return $this->redirect();
+        }
+
         $_id = $this->app->request->get('id');
         $comment = $this->app->db->fetchOneById(Comment::class, (int) $_id);
 
@@ -51,6 +67,11 @@ class BlogCrudController extends AbstractCrudController
 
     public function deleteComment()
     {
+        if (!$this->isAdmin()) {
+            $this->app->flash->add(FlashBag::TYPE_WARNING, 'Vous n\'etes pas connecter en tant qu\'admin');
+            return $this->redirect();
+        }
+
         $_id = $this->app->request->get('id');
         $comment = $this->app->db->fetchOneById(Comment::class, (int) $_id);
 

@@ -35,30 +35,37 @@
             </p>
         </div>
         <h3 class="text-center">Comments</h3>
+        {% if comments|length > 0 %}
         <table class="table">
             <thead>
-              <tr>
+                <tr>
                 <th scope="col">Auteur</th>
                 <th scope="col">Commantaire</th>
-              </tr>
+                </tr>
             </thead>
             <tbody>
-              {% for comment in comments %}
+            {% for comment in comments %}
                 <tr>
                     <td>{{ comment.getAuthor().getFullName() }}</td>
                     <td>{{ comment.content }}</td>
                 </tr>
-              {% endfor %}
+            {% endfor %}
             </tbody>
-          </table>
-        <form action="/blog/comment/add?id={{ post.id }}" method="post">
-            <h4>Ajouter un commentaire</h4>
-            <div>
-                <textarea name="comment" id="" cols="30" rows="10"></textarea>
-            </div>
-            <input type="hidden" name="author" value="{{ user }}">
-            <button type="submit" class="btn btn-primary">Envoyer</button>
-        </form>
+        </table>
+        {% else %}
+            <p>Aucun commentaire pour le moment</p>
+        {% endif %}
+        {% if user %}
+            <form action="/blog/comment/add?id={{ post.id }}" method="post">
+                <h4>Ajouter un commentaire</h4>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Commentaire</label>
+                    <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                <input type="hidden" name="author" value="{{ user }}">
+                <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
+            </form>
+        {% endif %}
     </div>
 </article>
 {% endblock %}

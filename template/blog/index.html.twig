@@ -21,8 +21,11 @@
 {% endblock %}
 
 {% block main %}
-    <div class="float-end me-4">
-        <a class="btn btn-success" href="/blog/new">Ajouter un nouveau post</a>
+        <div class="float-end mx-5 mb-5">
+            {% if user %}
+            <a class="btn btn-success" href="/blog/new">Ajouter un nouveau post</a>
+            {% endif %}
+        </div>
     </div>
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -38,15 +41,15 @@
                             {{ post.getUpdatedAt() }}
                         </p>
                     </div>
-                    <div class="post-actions">
-                        <a class="btn btn-success" href="/blog/edit?id={{ post.id }}">Editer</a>
-                        <a class="btn btn-danger" href="/blog/delete?id={{ post.id }}" onclick="return confirm('Are you sure you want to delete this post ?')">Supprimer</a>
-                    </div>
+                    {% if user == post.author %}             
+                        <div class="post-actions">
+                            <a class="btn btn-success" href="/blog/edit?id={{ post.id }}">Editer</a>
+                            <a class="btn btn-danger" href="/blog/delete?id={{ post.id }}" onclick="return confirm('Are you sure you want to delete this post ?')">Supprimer</a>
+                        </div>
+                    {% endif %}
                     <!-- Divider-->
                     <hr class="my-4" />
                 {% endfor %}
-                <!-- Pager-->
-                <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
             </div>
         </div>
     </div>

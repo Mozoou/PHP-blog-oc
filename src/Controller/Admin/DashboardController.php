@@ -2,11 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\Controller;
-use App\Model\User;
 use Berlioz\FlashBag\FlashBag;
 
-class DashboardController extends Controller
+class DashboardController extends AbstractCrudController
 {
     public function index()
     {
@@ -14,7 +12,7 @@ class DashboardController extends Controller
             return $this->redirect('login');
         }
 
-        if (!$this->isGranted($this->app->session->get('user', null), User::ROLE_ADMIN)) {
+        if (!$this->isAdmin()) {
             $this->app->flash->add(FlashBag::TYPE_WARNING, 'Vous n\'etes pas connecter en tant qu\'admin');
             return $this->redirect();
         }

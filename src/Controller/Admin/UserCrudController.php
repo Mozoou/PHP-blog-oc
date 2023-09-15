@@ -3,11 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Model\User;
+use Berlioz\FlashBag\FlashBag;
 
 class UserCrudController extends AbstractCrudController
 {
     public function index()
     {
+        if (!$this->isAdmin()) {
+            $this->app->flash->add(FlashBag::TYPE_WARNING, 'Vous n\'etes pas connecter en tant qu\'admin');
+            return $this->redirect();
+        }
+
         /* @var array $posts */
         $users = $this->app->db->fetchAll(User::class, 'DESC');
 
@@ -24,6 +30,11 @@ class UserCrudController extends AbstractCrudController
         // vérifier si l'utilisateur est bien connecté
         if ($this->app->session->get('user') === null) {
             return $this->redirect('login');
+        }
+
+        if (!$this->isAdmin()) {
+            $this->app->flash->add(FlashBag::TYPE_WARNING, 'Vous n\'etes pas connecter en tant qu\'admin');
+            return $this->redirect();
         }
 
         $_id = $this->app->request->get('id');
@@ -60,6 +71,11 @@ class UserCrudController extends AbstractCrudController
 
     public function delete()
     {
+        if (!$this->isAdmin()) {
+            $this->app->flash->add(FlashBag::TYPE_WARNING, 'Vous n\'etes pas connecter en tant qu\'admin');
+            return $this->redirect();
+        }
+
         $_id = $this->app->request->get('id');
         $user = $this->app->db->fetchOneById(User::class, (int) $_id);
 
