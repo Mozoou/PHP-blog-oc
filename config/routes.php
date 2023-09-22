@@ -7,6 +7,7 @@ use App\Controller\Admin\DashboardController;
 use App\Controller\Admin\UserCrudController;
 use Core\Router\Router;
 use App\Controller\BlogController;
+use App\Controller\ContactController;
 use App\Controller\HomeController;
 use App\Controller\LoginController;
 use App\Controller\RegistrationController;
@@ -27,6 +28,9 @@ $router->get('/', HomeController::class, 'index');
 
 $router->post('/register', RegistrationController::class, 'register');
 $router->get('/register', RegistrationController::class, 'index');
+
+$router->post('/contact', ContactController::class, 'index');
+$router->get('/contact', ContactController::class, 'index');
 
 $router->get('/admin', DashboardController::class, 'index');
 $router->get('/admin/blog', BlogCrudController::class, 'index');
