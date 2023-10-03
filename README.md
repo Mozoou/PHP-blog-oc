@@ -9,14 +9,14 @@ Un blog professionnel personnalisé développé en PHP pour mettre en valeur mes
 Installer le projet
 
 ```bash
-    git clone https://github.com/Mozoou/PHP-blog-oc.git
+git clone https://github.com/Mozoou/PHP-blog-oc.git
 ```
 
 Installer les dépendances
 
 ```bash
-    cd php-blog-oc
-    composer install
+cd php-blog-oc
+composer install
 ```
 
 le fichier .sql se trouve à l'interieur du dossier diagrammes/db.sql
@@ -24,5 +24,5 @@ le fichier .sql se trouve à l'interieur du dossier diagrammes/db.sql
 Lancer le serveur localement
 
 ```bash
-    php -S localhost:port -t ./public/
+php -S localhost:port -t ./public/
 ```
