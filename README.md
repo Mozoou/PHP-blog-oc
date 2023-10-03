@@ -19,3 +19,10 @@ Installer les dépendances
     composer install
 ```
 
+le fichier .sql se trouve à l'interieur du dossier diagrammes/db.sql
+
+Lancer le serveur localement
+
+```bash
+    php -S localhost:port -t ./public/
+```
