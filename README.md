@@ -1,7 +1,5 @@
 # Blog PHP (Projet OpenClassRooms)
 
-A brief description of what this project does and who it's for
-
 Un blog professionnel personnalisé développé en PHP pour mettre en valeur mes compétences en développement web. Ce projet comprend des fonctionnalités pour gérer les articles de blog, l'authentification des utilisateurs et une interface responsive. Utilisez ce readme pour découvrir le projet, l'exécuter localement et contribuer à son développement.
 
 
