@@ -21,6 +21,9 @@ composer install
 
 le fichier .sql se trouve à l'interieur du dossier diagrammes/db.sql
 
+
+## Utilisation
+
 Lancer le serveur localement
 
 ```bash
