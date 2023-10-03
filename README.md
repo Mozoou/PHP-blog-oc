@@ -9,7 +9,7 @@ Un blog professionnel personnalisé développé en PHP pour mettre en valeur mes
 Installer le projet
 
 ```bash
-  git clone https://github.com/Mozoou/PHP-blog-oc.git
+    git clone https://github.com/Mozoou/PHP-blog-oc.git
 ```
 
 Installer les dépendances
