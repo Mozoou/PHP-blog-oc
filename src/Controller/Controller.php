@@ -28,7 +28,7 @@ abstract class Controller
             $path,
             [
                 ...$params,
-                'user' => htmlspecialchars($this->app->session->get('user', null)),
+                'user' => htmlspecialchars((string) $this->app->session->get('user', null)),
                 'flashes' => $this->app->flash->all(),
             ]
         );
@@ -61,6 +61,6 @@ abstract class Controller
 
     protected function isGranted(User $user, string $role): bool
     {
-        return in_array($role, json_decode($user->getRoles()));
+        return in_array($role, json_decode((string) $user->getRoles(), null, 512, JSON_THROW_ON_ERROR));
     }
 }

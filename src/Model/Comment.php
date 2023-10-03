@@ -4,9 +4,9 @@ namespace App\Model;
 
 class Comment extends Model
 {
-    public const STATUS_VALID = 'validé';
-    public const STATUS_CANCELED = 'refusé';
-    public const STATUS_PENDING = 'en attente';
+    final public const STATUS_VALID = 'validé';
+    final public const STATUS_CANCELED = 'refusé';
+    final public const STATUS_PENDING = 'en attente';
 
     protected int $id;
 

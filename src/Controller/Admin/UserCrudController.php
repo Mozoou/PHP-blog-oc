@@ -48,12 +48,12 @@ class UserCrudController extends AbstractCrudController
             'submitted' => $this->app->request->request->get('submitted'),
         ];
 
-        $data['roles'] = json_encode([$data['roles']]);
+        $data['roles'] = json_encode([$data['roles']], JSON_THROW_ON_ERROR);
 
 
         $submited = htmlspecialchars(trim($data['submitted']));
 
-        if (!$submited) {
+        if ($submited === '' || $submited === '0') {
             return $this->render('admin/user/edit.html.twig', [
                 'userToEdit' => $user,
             ]);

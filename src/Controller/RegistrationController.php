@@ -33,13 +33,13 @@ class RegistrationController extends Controller
         ];
         $user = $this->verify($form);
         $success = false;
-        if ($user) {
+        if ($user instanceof \App\Model\User) {
             $success = $this->app->db->insert($user);
         } else {
             return;
         }
 
-        if ($success) {
+        if ($success !== 0) {
             $this->app->flash->add(FlashBag::TYPE_SUCCESS, 'Inscrit avec succès');
         } else {
             $this->app->flash->add(FlashBag::TYPE_ERROR, 'Erreur lors de l\'inscription');
@@ -60,21 +60,21 @@ class RegistrationController extends Controller
         // Vérification du champ "Prénom"
         if (empty($data['fname'])) {
             $errors[] = "Le champ 'Prénom' est obligatoire";
-        } elseif (!preg_match('/^[a-zA-Z]+$/', $data['fname'])) {
+        } elseif (!preg_match('/^[a-zA-Z]+$/', (string) $data['fname'])) {
             $errors[] = "Le champ 'Prénom' ne doit contenir que des lettres";
         }
 
         // Vérification du champ "Nom"
         if (empty($data['lname'])) {
             $errors[] = "Le champ 'Nom' est obligatoire";
-        } elseif (!preg_match('/^[a-zA-Z]+$/', $data['lname'])) {
+        } elseif (!preg_match('/^[a-zA-Z]+$/', (string) $data['lname'])) {
             $errors[] = "Le champ 'Nom' ne doit contenir que des lettres";
         }
 
         // Vérification du champ "Pseudo"
         if (empty($data['pseudo'])) {
             $errors[] = "Le champ 'Pseudo' est obligatoire";
-        } elseif (!preg_match('/^[a-zA-Z0-9]+$/', $data['pseudo'])) {
+        } elseif (!preg_match('/^[a-zA-Z0-9]+$/', (string) $data['pseudo'])) {
             $errors[] = "Le champ 'Pseudo' ne doit contenir que des lettres et des chiffres";
         }
 
@@ -88,12 +88,12 @@ class RegistrationController extends Controller
         // Vérification du champ "Mot de passe"
         if (empty($data['password'])) {
             $errors[] = "Le champ 'Mot de passe' est obligatoire";
-        } elseif (strlen($data['password']) < 8) {
+        } elseif (strlen((string) $data['password']) < 8) {
             $errors[] = "Le champ 'Mot de passe' doit contenir au moins 8 caractères";
         }
 
         // Si des erreurs ont été détectées, affichez-les
-        if (!empty($errors)) {
+        if ($errors !== []) {
             foreach ($errors as $error) {
                 $this->app->flash->add(FlashBag::TYPE_ERROR, $error);
             }
@@ -114,7 +114,7 @@ class RegistrationController extends Controller
             foreach ($data as $method => $value) {
                 if ('password' === $method) {
                     $method = 'set' . ucfirst($method);
-                    $value = password_hash($value, null, []);
+                    $value = password_hash((string) $value, null, []);
                     $user->$method($value);
                 } else {
                     $method = 'set' . ucfirst($method);

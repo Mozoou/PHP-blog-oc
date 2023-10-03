@@ -30,7 +30,7 @@ abstract class Model
         foreach ($data as $methodName => $value) {
             if ('password' === $methodName) {
                 $method = 'set' . ucfirst($methodName);
-                $value = password_hash($value, null, []);
+                $value = password_hash((string) $value, null, []);
                 $this->$method($value);
             } else {
                 $method = 'set' . ucfirst($methodName);

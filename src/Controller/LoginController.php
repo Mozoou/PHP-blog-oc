@@ -18,7 +18,7 @@ class LoginController extends Controller
 
         $submited = htmlspecialchars(trim($this->app->request->request->get('submitted')));
 
-        if (!$submited) {
+        if ($submited === '' || $submited === '0') {
             return $this->render('login/form.html.twig');
         }
 

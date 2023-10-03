@@ -75,7 +75,7 @@ class BlogController extends Controller
 
         $submited = htmlspecialchars(trim($data['submitted']));
 
-        if (!$submited) {
+        if ($submited === '' || $submited === '0') {
             return $this->render('blog/new.html.twig');
         }
 
@@ -95,7 +95,7 @@ class BlogController extends Controller
         try {
             $id = $this->app->db->insert($post);
             return $this->redirect('blog/view', ['id' => $id]);
-        } catch (\Throwable $th) {
+        } catch (\Throwable) {
             $this->app->flash->add(FlashBag::TYPE_ERROR, 'Il y a eu une erreur lors de l\'enregistrement.');
             return $this->render('blog/new.html.twig');
         }
@@ -132,7 +132,7 @@ class BlogController extends Controller
 
         $submited = htmlspecialchars(trim($data['submitted']));
 
-        if (!$submited) {
+        if ($submited === '' || $submited === '0') {
             return $this->render('blog/edit.html.twig', [
                 'post' => $post,
             ]);
@@ -182,7 +182,7 @@ class BlogController extends Controller
         try {
             $this->app->db->insert($comment);
             $this->app->flash->add(FlashBag::TYPE_SUCCESS, 'Le commentaire est en attente de validation');
-        } catch (\Throwable $th) {
+        } catch (\Throwable) {
             $this->app->flash->add(FlashBag::TYPE_ERROR, 'Il y a eu une erreur lors de l\'ajout du commentaire.');
         }
 

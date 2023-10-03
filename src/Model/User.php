@@ -2,11 +2,11 @@
 
 namespace App\Model;
 
-class User extends Model
+class User extends Model implements \Stringable
 {
 
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
-    public const ROLE_USER = 'ROLE_USER';
+    final public const ROLE_ADMIN = 'ROLE_ADMIN';
+    final public const ROLE_USER = 'ROLE_USER';
 
     /** @var integer $id */
     protected int $id;
@@ -101,7 +101,7 @@ class User extends Model
 
     public function __toString(): string
     {
-        return $this->getId();
+        return (string) $this->getId();
     }
 
     public function getRoles()
