@@ -33,6 +33,7 @@ class RegistrationController extends Controller
         ];
         $user = $this->verify($form);
         $success = false;
+
         if ($user instanceof \App\Model\User) {
             $success = $this->app->db->insert($user);
         } else {

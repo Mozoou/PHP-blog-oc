@@ -7,6 +7,7 @@ use Twig\Environment;
 use Core\Router\Router;
 use Cocur\Slugify\Slugify;
 use Berlioz\FlashBag\FlashBag;
+use Core\Mailer\Mailer;
 use Dotenv\Dotenv;
 use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
@@ -40,6 +41,9 @@ class App
     /** @var Request $request */
     public ?Request $request = null;
 
+    /** @var Mailer $mailer */
+    public ?Mailer $mailer = null;
+
     private static ?self $_instance = null;
 
     /**
@@ -70,5 +74,6 @@ class App
         $this->slugify = new Slugify();
         $this->session = new Session();
         $this->request = Request::createFromGlobals();
+        $this->mailer = Mailer::getInstance();
     }
 }

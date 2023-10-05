@@ -29,8 +29,8 @@ $router->get('/', HomeController::class, 'index');
 $router->post('/register', RegistrationController::class, 'register');
 $router->get('/register', RegistrationController::class, 'index');
 
-$router->post('/contact', ContactController::class, 'index');
 $router->get('/contact', ContactController::class, 'index');
+$router->post('/contact', ContactController::class, 'send');
 
 $router->get('/admin', DashboardController::class, 'index');
 $router->get('/admin/blog', BlogCrudController::class, 'index');
